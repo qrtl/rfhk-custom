@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="zz_view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">account.invoice.select</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="arch" type="xml">
+            	<search string="Search Invoice">
+            	    <filter name="unpaid2" string="To be Paid" domain="[('state','not in',['cancel','paid'])]"/>
+            	</search>
+            </field>
+        </record>
+
+
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="context">{'search_default_unpaid2': 1, 'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="zz_view_account_invoice_filter"/>
+        </record>
+
+
+        <record id="account.action_invoice_tree2" model="ir.actions.act_window">
+            <field name="context">{'search_default_unpaid2': 1, 'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
+            <field name="search_view_id" ref="zz_view_account_invoice_filter"/>
+        </record>
+
+    </data>
+</openerp>

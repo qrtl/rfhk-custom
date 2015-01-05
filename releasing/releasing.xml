@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="releasing_edit_project">
+            <field name="name">releasing_project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="user_id" position="after">
+                        <field name="technical_manager"/> 
+                        <field name="releasing_count"/>         
+                    </field>
+                </data>
+            </field>
+        </record> 
+        
+        <!-- Releasing -->
+        <record id="view_project_releasing_filter" model="ir.ui.view">
+            <field name="name">Project Releasing Search</field>
+            <field name="model">project.releasing</field>
+            <field name="arch" type="xml">
+                <search string="Releasing Search">
+                    <filter icon="terp-mail-message-new" string="Unread Messages" name="message_unread" domain="[('message_unread','=',True)]"/>
+                    <separator/>
+                    <filter string="New" icon="terp-document-new" domain="[('step','=','draft')]" help="New Release"/>
+                    <filter string="To Do" domain="[('step','=','accepted2')]" help="To Do Releasing" icon="terp-check"/>
+                    <separator/>
+                    <filter string="Task" domain="[('type','=','task')]"/>
+                    <filter string="Issue" domain="[('type','=','issue')]"/>
+                    <field name="project_id"/>
+                    <field name="task_id"/>
+                    <field name="issue_id"/>
+                    <field name="type"/>
+                    <group expand="0" string="Group By..." >
+                        <filter string="Project"  icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Type" icon="terp-gtk-jump-to-rtl" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="Step" icon="terp-stage" domain="[]" context="{'group_by':'step'}"/>
+                        <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'actual_date'}" help="Releasing Month"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="project_releasing_tree_view">
+            <field name="name">Project Releasing Tree</field>
+            <field name="model">project.releasing</field>
+            <field name="arch" type="xml">
+                <tree string="Releasing Tree" colors="grey:step in ('refused','done');blue:step == 'draft';red:planned_date and (step in ('confirm','accepted1','accepted2'))">
+                    <field name="name"/>
+                    <field name="release_number"/>
+                    <field name="type"/>
+                    <field name="project_id"/>
+                    <field name="task_id"/>
+                    <field name="issue_id"/>
+                    <field name="planned_date"/>
+                    <field name="actual_date"/>
+                    <field name="step"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="project_releasing_form_view">
+            <field name="name">Project Releasing Form</field>
+            <field name="model">project.releasing</field>
+            <field name="arch" type="xml">
+                <form string="Releasing" version="7.0">
+                    <header>
+                        <field name="is_pm" invisible='1'/>
+                        <field name="is_tm" invisible='1'/>
+                        <button name="confirm"  attrs="{'invisible':[('step','!=','draft')]}" string="Submit to Managers" type="workflow" class="oe_highlight" groups="project.group_project_user"/>
+                        <button name="validate1" string="Approve (TM)" attrs="{'invisible':['|','|',('step','in',('draft','refused','released')),('tm_approve_date','!=',False),('is_tm','=',False)]}" class="oe_highlight" />
+                        <button name="validate2" string="Approve (PM)" attrs="{'invisible':['|','|',('step','in',('draft','refused','released')),('pm_approve_date','!=',False),('is_pm','=',False)]}" class="oe_highlight" />
+                        <button name="validate-1" string="Approve (TM)" attrs="{'invisible':['|','|','|',('step','in',('draft','confirm','accepted1','accepted2','done','refused')),('tm_approve_date','!=',False),('pm_approve_date','=',False),('is_tm','=',False)]}" class="oe_highlight" />
+                        <button name="validate-2" string="Approve (PM)" attrs="{'invisible':['|','|','|',('step','in',('draft','confirm','accepted1','accepted2','done','refused')),('pm_approve_date','!=',False),('tm_approve_date','=',False),('is_pm','=',False)]}" class="oe_highlight" />
+                        <button name="refuse" attrs="{'invisible':['|','|',('step','not in',('confirm','accepted1','accepted2')),('tm_approve_date','!=', False),('is_tm','=',False),'|','|',('step','not in',('confirm','accepted1','accepted2')),('pm_approve_date','!=', False),('is_tm','=',False),'|','|',('step','not in',('confirm','accepted1','accepted2')),('tm_approve_date','!=', False),'|','|',('step','not in',('confirm','accepted1','accepted2')),('tm_approve_date','!=', False),('is_pm','=',False)]}" string="Refuse" groups="project.group_project_manager"/>
+                        <button name="release" attrs="{'invisible':['|',('step','in',('draft','refused','confirm','released','done')),('pm_approve_date','=', False),'|',('step','in',('draft','refused','confirm','released','done')),('tm_approve_date','=',False)]}" string="Release" type="workflow" groups="project.group_project_user"/>
+                        <button name="draft" attrs="{'invisible':[('step','!=','refused')]}" string="Set to Draft" type="workflow" groups="project.group_project_user"/>
+                        <button name="done"  attrs="{'invisible':['|','|',('step','!=','released'),('tm_approve_date','=', False),('pm_approve_date','=', False)]}" string="Done" class="oe_highlight" groups="project.group_project_user"/>
+                        <field name="step" widget="statusbar" statusbar_visible="draft,confirm,released,done"/>   
+                    </header>
+                    <sheet string="Releasing">
+                        <div class="oe_title">
+                            <h1>
+                              <field name="release_number"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="name"/>
+                            <field name="categ_ids" widget="many2many_tags"/>
+                            <field name="background"/>
+                            <field name="content"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="project_id" on_change="onchange_project(project_id)"/>
+                                <field name="type"/>
+                                <field name="task_id" attrs="{'invisible':[('type','=','issue')]}" on_change="onchange_task(task_id)"/>
+                                <field name="issue_id" attrs="{'invisible':[('type','=','task')]}" on_change="onchange_issue(issue_id)"/>
+                                <field name="assignee"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Release Date">
+                                <field name="planned_date"/>
+                                <field name="actual_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Technical Manager Approval">
+                                <field name="tm_ids"/>
+                                <field name="technical_manager" domain="[('id','in',tm_ids)]"/>
+                                <field name="tm_approve_date"/>
+                            </group>
+                            <group string="Project Manager Approval">
+                                <field name="pm_ids"/>
+                                <field name="project_manager" domain="[('id','in',pm_ids)]"/>
+                                <field name="pm_approve_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="act_project_releasing_task_button" model="ir.actions.act_window">
+            <field name="res_model">project.releasing</field>
+            <field name="context">{'search_default_task_id': [active_id], 'default_task_id': active_id, 'default_type':'task', 'active_test': False}</field>
+            <field name="view_type">form</field>
+            <field name="name">Releases</field>
+            <field name="view_mode">tree,form</field>
+                       
+        </record>
+        
+        <record id="act_project_releasing_issue_button" model="ir.actions.act_window">
+            <field name="res_model">project.releasing</field>
+            <field name="context">{'search_default_issue_id': [active_id],'default_issue_id': active_id, 'default_type':'issue', 'active_test': False}</field>
+            <field name="view_type">form</field>
+            <field name="name">Releases</field>
+            <field name="view_mode">tree,form</field>
+                       
+        </record>
+        
+        <record id="act_project_releasing_project_button" model="ir.actions.act_window">
+            <field name="res_model">project.releasing</field>
+            <field name="context">{'search_default_project_id': [active_id], 'default_project_id': active_id, 'active_test': False}</field>
+            <field name="view_type">form</field>
+            <field name="name">Releases</field>
+            <field name="view_mode">tree,form</field>
+                       
+        </record>
+        
+        <record id="act_project_releasing" model="ir.actions.act_window">
+            <field name="res_model">project.releasing</field>
+            <field name="view_type">form</field>
+            <field name="name">Releases</field>
+            <field name="view_mode">tree,form</field>
+                       
+        </record>
+        
+        <menuitem id="releases" action="act_project_releasing" parent="project.menu_project_management" sequence="15" />
+        
+        <!-- Project -->
+        <record id="view_project_form_inherited2" model="ir.ui.view">
+            <field name="name">project.project.form.inherited2</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr='//div[@name="buttons"]' position='inside'>
+                    <button name="%(act_project_releasing_project_button)d" type="action" string="Releases"/>
+                </xpath>
+                
+            </field>
+       </record>
+       
+       <!-- Task -->
+        <record id="releasing_view_task_form2" model="ir.ui.view">
+            <field name="name">releasing_project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="name" position="after">
+                        <button name="%(act_project_releasing_task_button)d" string="Releases" type="action" />
+                    </field>
+                    <field name="project_id" position="after">
+                        <field name="releasing_count"/>
+                    </field>
+                </data>
+                
+            </field>
+       </record>
+       
+       <!-- Issue -->
+        <record id="releasing_view_issue_form" model="ir.ui.view">
+            <field name="name">releasing_Project Issue Form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="name" position="after">
+                        <button name="%(act_project_releasing_issue_button)d" string="Releases" type="action"/>
+                    </field>
+                    <field name="project_id" position="after">
+                        <field name="releasing_count"/>
+                    </field>
+                </data>
+                
+            </field>
+       </record>
+       
+       
+                   
+    </data>      
+</openerp>

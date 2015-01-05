@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+
+<t t-extend="DatabaseManager.menu">
+    <t t-jquery="ul.oe_secondary_submenu" t-operation="replace">
+        <ul class="oe_secondary_submenu">
+            <li><a href="#db_create">Create</a></li>
+            <li><a href="#db_duplicate">Duplicate</a></li>
+            <li><a href="#db_backup">Backup</a></li>
+            <li><a href="#db_restore">Restore</a></li>
+            <li><a href="#db_change_password">Password</a></li>
+            <li><a href="#db_drop">------------------Drop Database</a></li>
+        </ul>
+    </t>
+</t>
+       
+    
+</templates>
+

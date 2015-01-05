@@ -1,0 +1,146 @@
+# -*- coding: utf-8 -*-
+import time
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
+
+
+class bs_pastyear_month(osv.osv_memory):
+    _name = "bs.pastyear.month"
+    _description = "BS PastYear Month"
+
+    def onchange_chart_id(self, cr, uid, ids, chart_account_id=False, context=None):
+        res = {}
+        if chart_account_id:
+            company_id = self.pool.get('account.account').browse(cr, uid, chart_account_id, context=context).company_id.id
+            now = time.strftime('%Y-%m-%d')
+            domain = [('company_id', '=', company_id), ('date_start', '<', now), ('date_stop', '>', now)]
+            fiscalyears = self.pool.get('account.fiscalyear').search(cr, uid, domain, limit=1)
+            res['value'] = {'company_id': company_id, 'fiscalyear_id': fiscalyears and fiscalyears[0] or False}
+        return res
+
+    _columns = {
+        'chart_account_id': fields.many2one('account.account', 'Chart of Account', required=True, domain = [('parent_id','=',False)]),
+        'company_id': fields.related('chart_account_id', 'company_id', type='many2one', relation='res.company', string='Company', readonly=True),
+        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year',required=True, help='Keep empty for all open fiscal year'),
+        'account_report_id': fields.many2one('account.financial.report', 'Account Reports', required=True),
+        'target_move': fields.selection([('posted', 'All Posted Entries'),('all', 'All Entries'),], 'Target Moves',),
+        'last_year': fields.boolean('Last Year', ),
+        'two_years_go': fields.boolean('Two Years Ago', ),
+        'date_from': fields.date("Start Date",),
+        'date_to': fields.many2one('account.period', 'End Date', required=True),
+    }
+
+    def _get_account(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        accounts = self.pool.get('account.account').search(cr, uid, [('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
+        return accounts and accounts[0] or False
+
+    _defaults = {
+            'chart_account_id': _get_account,
+            'account_report_id': 4,
+            'target_move': 'posted',
+    }
+    
+    def _build_month_period(self, cr, uid, ids, data, context=None):
+        if context is None:
+            context = {}
+        result = []
+        
+        fiscalyear_obj = self.pool.get('account.fiscalyear')
+        period_obj = self.pool.get('account.period')
+        period = period_obj.browse(cr, uid, data['form']['date_to'], context=context)
+        date_to = period.date_stop
+        now = time.strftime('%Y-%m-%d')
+        if date_to > now:
+            raise osv.except_osv(_('Error!'),_("End Date 大于当前时间，请确认！！"))
+        
+        #date_to=2014-03-31
+        #month=03
+        print " date_to=%s \n"% date_to
+        
+        month = int(date_to[5:7])
+        if month >=1 and month <=9:
+            code = '0' + str(month) + '/'
+        elif month ==10 or month ==11 or month ==12:
+            code = str(month) + '/'
+        
+        fiscalyear_1 = fiscalyear_obj.browse(cr, uid, data['form']['fiscalyear_id'], context=context).name or ''
+        date_start = date_to[:5] + '01-01'
+        title = code + fiscalyear_1
+        ln = {'fiscalyear_id':data['form']['fiscalyear_id'],'date_start':date_start,'date_stop':date_to,'title':title}
+        result.append(ln)
+        
+        if data['form']['last_year']:
+            fiscalyear_2 = str(int(fiscalyear_1)-1)
+            code_2 = code + fiscalyear_2
+            print "code_2=%s"% code_2
+            fiscalyear_ids = fiscalyear_obj.search(cr, uid, [('name','=',fiscalyear_2),])
+            period_ids = period_obj.search(cr, uid, [('fiscalyear_id','=',fiscalyear_ids[0]),('code','=',code_2)])
+            period = period_obj.browse(cr, uid, period_ids[0], context=context)
+            
+            date_start = fiscalyear_2 + '-01-01'
+            date_stop = period.date_stop or False
+            ln = {'fiscalyear_id':fiscalyear_ids[0],'date_start':date_start,'date_stop':date_stop,'title':code_2}
+            result.append(ln)
+        if data['form']['two_years_go']:
+            fiscalyear_3 = str(int(fiscalyear_1)-2)
+            code_3 = code  + fiscalyear_3
+            print "code_3=%s"% code_3
+            fiscalyear_ids = fiscalyear_obj.search(cr, uid, [('name','=',fiscalyear_3),])
+            period_ids = period_obj.search(cr, uid, [('fiscalyear_id','=',fiscalyear_ids[0]),('code','=',code_3)])
+            period = period_obj.browse(cr, uid, period_ids[0], context=context)
+            
+            date_start = fiscalyear_3 + '-01-01'
+            date_stop = period.date_stop or False
+            ln = {'fiscalyear_id':fiscalyear_ids[0],'date_start':date_start,'date_stop':date_stop,'title':code_3}
+            result.append(ln)
+        
+        print "result=%s"% result
+        #raise osv.except_osv(_('Error!'),_("不再进行下去！！！！"))
+        
+        return result
+
+    def check_report(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        print "ids=%s"% ids
+        
+        res = {}
+        data = {}
+        month_period = []
+        data['form'] = self.read(cr, uid, ids, ['chart_account_id','fiscalyear_id','account_report_id','target_move','last_year','two_years_go','date_from','date_to'], context=context)[0]
+        
+        for field in ['chart_account_id','fiscalyear_id','account_report_id','date_to']:
+            if isinstance(data['form'][field], tuple):
+                data['form'][field] = data['form'][field][0]
+        #print "data1=%s \n"% data
+        
+        month_period = self._build_month_period(cr, uid, ids, data, context=context)
+        data['month_period'] = month_period
+        
+        result = {}
+        result['date_from'] = month_period[0]['date_start']
+        result['date_to'] = month_period[0]['date_stop']
+        result['fiscalyear'] = 'fiscalyear_id' in data['form'] and data['form']['fiscalyear_id'] or False
+        result['journal_ids'] = 'journal_ids' in data['form'] and data['form']['journal_ids'] or False
+        result['chart_account_id'] = 'chart_account_id' in data['form'] and data['form']['chart_account_id'] or False
+        result['state'] = 'target_move' in data['form'] and data['form']['target_move'] or ''
+        data['form']['used_context'] = result
+        
+        print " data2=%s \n"% data
+        
+        fiscalyear_obj = self.pool.get('account.fiscalyear')
+        fiscalyear_1 = fiscalyear_obj.browse(cr, uid, data['form']['fiscalyear_id'], context=context).name or ''
+        data['fiscalyear_name'] = fiscalyear_1
+        #raise osv.except_osv(_('Error!'),_("不再进行下去！！！！"))
+        
+        return {
+            'type':'ir.actions.report.xml',
+            'datas':data,
+            'report_name':'bs_pastyear_month_report',
+        }
+
+
+bs_pastyear_month()
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<openerp>
+    <data>
+        <record id="new_view_order_tree" model="ir.ui.view">
+            <field name="name">new_sale.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            
+            <field name="arch" type="xml">
+
+                <tree string="Sales Order Detail List" create="false" delete="false">
+                    <field name="sequence" widget="handle"/>
+                    <field name="state" />
+                    <field name="th_weight" invisible="1"/>
+                    
+					<field name="product_id"/>
+                    <field name="name"/>
+                    <field name="product_uom_qty"/>
+                    <field name="product_uom"/>
+
+                    <field name="product_uos_qty" groups="product.group_uos" invisible="1"/>
+                    <field name="product_uos" string="UoS" groups="product.group_uos" invisible="1"/>
+                    <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"/>
+                    <field name="price_unit"/>
+                    <field name="price_subtotal"/>
+                    <field name="discount" groups="sale.group_discount_per_so_line"/>
+                    <field name="order_partner_id"/>
+                   
+                    <field name="order_name"/>
+                    <field name="date_order"/>
+                    <field name="commitment_date"/>
+                    <field name="user_id"/>
+                    <field name="client_order_ref"/>
+                    <field name="currency_id"/>
+                    <field name="rate"/>
+                    <field name="uni_cost"/>
+                    <field name="cost_amt"/>
+                    <field name="base_amt" sum="Total Amount"/>
+                    <field name="gross_profit"/>
+                    <field name="profit"/>
+                </tree>
+            </field>
+        </record>
+    
+        <record id="new_action_orders" model="ir.actions.act_window">
+            <field name="name">Sales Order Detail List</field>
+            
+            <field name="res_model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="view_id" ref="new_view_order_tree"/>
+           
+            
+        </record>
+    
+        <menuitem action="new_action_orders" name="Sales/Detailed View/Sales Order View" id="new_action_orders" groups="base.group_sale_salesman,base.group_sale_manager"/>
+        
+        
+
+    </data>
+</openerp>
+

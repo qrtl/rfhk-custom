@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+        <record id="bs_pastyear_month_view" model="ir.ui.view">
+            <field name="name">BS_PastYear_Month</field>
+            <field name="model">bs.pastyear.month</field>
+            <field name="arch" type="xml">
+                <form string="PCI Report" version="7.0">
+                    <group col="4">
+                       <field name="chart_account_id" widget='selection' on_change="onchange_chart_id(chart_account_id, context)"/>
+                       <field name="target_move"/>
+                       <field name="fiscalyear_id"/>
+                       <field name="date_to" domain="[('fiscalyear_id','=',fiscalyear_id)]"/>
+                       <field name="last_year" />
+                       <field name="two_years_go" />
+                       <field name="date_from" invisible="1"/>
+                       <field name="company_id" invisible="1"/>
+                       <field name="account_report_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                        or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_bs_pastyear_month" model="ir.actions.act_window">
+             <field name="name">BS_PastYear_Month</field>
+             <field name="res_model">bs.pastyear.month</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="bs_pastyear_month_view"/>
+             <field name="target">new</field>
+        </record>
+        <menuitem id="menu_bs_pastyear_month" action="action_bs_pastyear_month" parent="account.final_accounting_reports" sequence="104"/>
+
+    </data>
+</openerp>

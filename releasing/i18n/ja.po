@@ -1,0 +1,305 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* releasing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140110-002122\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-11 03:43+0000\n"
+"PO-Revision-Date: 2014-04-11 03:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: releasing
+#: field:project.releasing,release_number:0
+msgid "NO."
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "To Do Releasing"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "To Do"
+msgstr ""
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_issue
+msgid "Project Issue"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Submit to Project Manager"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Group By..."
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,message_follower_ids:0
+msgid "Followers"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Set to Draft"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Basic"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+#: selection:project.releasing,step:0
+msgid "New"
+msgstr ""
+
+#. module: releasing
+#: model:mail.message.subtype,name:releasing.mt_release_refused
+#: selection:project.releasing,step:0
+msgid "Refused"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,issue_id:0
+#: selection:project.releasing,type:0
+msgid "Issue"
+msgstr ""
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_pro_approved
+#: model:mail.message.subtype,name:releasing.mt_pro_approved
+#: selection:project.releasing,step:0
+msgid "Approved"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,project_manager:0
+msgid "Project Manager"
+msgstr ""
+
+#. module: releasing
+#: model:ir.actions.act_window,name:releasing.act_project_releasing
+#: model:ir.actions.act_window,name:releasing.act_project_releasing_issue_button
+#: model:ir.actions.act_window,name:releasing.act_project_releasing_project_button
+#: model:ir.actions.act_window,name:releasing.act_project_releasing_task_button
+#: model:ir.ui.menu,name:releasing.releases
+#: view:project.issue:0
+#: view:project.project:0
+#: view:project.task:0
+msgid "Releases"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,message_unread:0
+msgid "Unread Messages"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,type:0
+msgid "Type"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing"
+msgstr ""
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_releasing
+msgid "Project Releasing"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,planned_time:0
+msgid "Planned Time"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,planned_date:0
+msgid "Planned Date"
+msgstr ""
+
+#. module: releasing
+#: help:project.releasing,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,step:0
+msgid "Step"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,actual_date:0
+msgid "Releasing Date"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,notes:0
+msgid "Notes"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Refuse"
+msgstr ""
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_task
+#: view:project.releasing:0
+#: field:project.releasing,task_id:0
+#: selection:project.releasing,type:0
+msgid "Task"
+msgstr ""
+
+#. module: releasing
+#: selection:project.releasing,step:0
+msgid "Waiting Approval"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "People in Charge"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,message_ids:0
+msgid "Messages"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,message_summary:0
+#: field:project.releasing,name:0
+msgid "Summary"
+msgstr ""
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_project
+#: view:project.releasing:0
+#: field:project.releasing,project_id:0
+msgid "Project"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "New Release"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Time"
+msgstr ""
+
+#. module: releasing
+#: field:project.project,technical_manager:0
+#: field:project.releasing,technical_manager:0
+msgid "Technical Manager"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,id:0
+msgid "ID"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Approve"
+msgstr ""
+
+#. module: releasing
+#: help:project.releasing,message_ids:0
+msgid "Messages and communication history"
+msgstr ""
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_release_refused
+msgid "Release refused"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing Tree"
+msgstr ""
+
+#. module: releasing
+#: field:project.issue,releasing_count:0
+#: field:project.project,releasing_count:0
+#: field:project.task,releasing_count:0
+msgid "Releasing in Progress"
+msgstr ""
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_tec_approved
+#: model:mail.message.subtype,name:releasing.mt_tec_approved
+msgid "Technical Manager Approved"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Submit to Technical Manager"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Month"
+msgstr ""
+
+#. module: releasing
+#: selection:project.releasing,step:0
+msgid "Technical Approved"
+msgstr ""
+
+#. module: releasing
+#: help:project.releasing,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing Month"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+#: selection:project.releasing,step:0
+msgid "Done"
+msgstr ""
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_release_confirmed
+#: model:mail.message.subtype,name:releasing.mt_release_confirmed
+msgid "To Approve"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing Search"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,actual_time:0
+msgid "Releasing Time"
+msgstr ""
+

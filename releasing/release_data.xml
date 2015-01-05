@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+        <!-- release subtypes for messaging / Chatter -->
+        <record id="mt_tec_approved" model="mail.message.subtype">
+            <field name="name">Technical Manager Approved</field>
+            <field name="res_model">project.releasing</field>
+            <field name="default" eval="False"/>
+            <field name="description">Technical Manager Approved</field>
+        </record>
+        <record id="mt_pro_approved" model="mail.message.subtype">
+            <field name="name">Approved</field>
+            <field name="res_model">project.releasing</field>
+            <field name="default" eval="False"/>
+            <field name="description">Approved</field>
+        </record>
+        <record id="mt_release_refused" model="mail.message.subtype">
+            <field name="name">Refused</field>
+            <field name="res_model">project.releasing</field>
+            <field name="description">Release refused</field>
+        </record>
+        <record id="mt_release_confirmed" model="mail.message.subtype">
+            <field name="name">To Approve</field>
+            <field name="res_model">project.releasing</field>
+            <field name="description">To Approve</field>
+        </record>
+        
+        
+        <!-- release number -->
+        <record id="sequence_release_number_type" model="ir.sequence.type">
+            <field name="name">Release Number</field>
+            <field name="code">release.sequence.number</field>
+        </record>
+        <record id="sequence_release_number" model="ir.sequence"> 
+            <field name="name">Release Sequence Number</field>
+            <field name="code">release.sequence.number</field>
+            <field name="prefix">%(year)s%(month)s%(day)s-</field>
+            
+        </record>
+        
+        
+        
+    </data>
+</openerp>

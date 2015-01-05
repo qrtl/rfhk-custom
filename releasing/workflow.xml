@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Workflow definition -->
+
+        <record id="wkf_releasing" model="workflow">
+            <field name="name">wkf.releasing</field>
+            <field name="osv">project.releasing</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <record id="act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_releasing"/>
+            <field name="name">draft</field>
+            <field name="flow_start">True</field>
+            <field name="kind">function</field>
+            <field name="action">write({'step': 'draft'})</field>
+        </record>
+
+        <record id="act_confirm" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_releasing"/>
+            <field name="name">confirm</field>
+            <field name="kind">function</field>
+            <field name="action">releasing_confirm()</field>
+        </record>
+       
+        <record id="act_accepted1" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_releasing"/>
+            <field name="name">accepted1</field>
+            <field name="kind">function</field>
+            <field name="action">releasing_accept1()</field>
+        </record>
+       
+        <record id="act_accepted2" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_releasing"/>
+            <field name="name">accepted2</field>
+            <field name="kind">function</field>
+            <field name="action">releasing_accept2()</field>
+        </record>
+       
+        <record id="act_refused" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_releasing"/>
+            <field name="name">refuse</field>
+            <field name="kind">function</field>
+            <field name="action">releasing_refused()</field>
+        </record>
+       
+        <record id="act_release" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_releasing"/>
+            <field name="name">release</field>
+            <field name="kind">function</field>
+            <field name="action">releasing_release()</field>
+        </record>
+        
+        <record id="act_done" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_releasing"/>
+            <field name="name">done</field>
+            <field name="kind">function</field>
+            <field name="action">releasing_done()</field>
+        </record>
+        
+        
+       
+       
+       
+       
+
+        <record id="t1" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_confirm"/>
+            <field name="signal">confirm</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+
+        <record id="t2" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
+            <field name="act_to" ref="act_accepted1"/>
+            <field name="signal">validate1</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+        <record id="t3" model="workflow.transition">
+            <field name="act_from" ref="act_accepted1"/>
+            <field name="act_to" ref="act_accepted2"/>
+            <field name="signal">validate2</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+        <record id="t4" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
+            <field name="act_to" ref="act_refused"/>
+            <field name="signal">refuse</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+       
+       
+        <record id="t8" model="workflow.transition">
+            <field name="act_from" ref="act_accepted2"/>
+            <field name="act_to" ref="act_release"/>
+            <field name="signal">release</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+        <record id="t9" model="workflow.transition">
+            <field name="act_from" ref="act_accepted1"/>
+            <field name="act_to" ref="act_refused"/>
+            <field name="signal">refuse</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+        <record id="t10" model="workflow.transition">
+            <field name="act_from" ref="act_refused"/>
+            <field name="act_to" ref="act_draft"/>
+            <field name="signal">draft</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+         <!-- new transitions-->
+        <record id="t5" model="workflow.transition">
+            <field name="act_from" ref="act_confirm"/>
+            <field name="act_to" ref="act_accepted2"/>
+            <field name="signal">validate2</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+        <record id="t6" model="workflow.transition">
+            <field name="act_from" ref="act_accepted2"/>
+            <field name="act_to" ref="act_accepted1"/>
+            <field name="signal">validate1</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+        <record id="t7" model="workflow.transition">
+            <field name="act_from" ref="act_accepted2"/>
+            <field name="act_to" ref="act_refused"/>
+            <field name="signal">refuse</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+       
+        <record id="t11" model="workflow.transition">
+            <field name="act_from" ref="act_accepted1"/>
+            <field name="act_to" ref="act_release"/>
+            <field name="signal">release</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+        
+        <record id="t12" model="workflow.transition">
+            <field name="act_from" ref="act_release"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="signal">done</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+        
+        <record id="t13" model="workflow.transition">
+            <field name="act_from" ref="act_release"/>
+            <field name="act_to" ref="act_release"/>
+            <field name="signal">validate-2</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+        
+        <record id="t14" model="workflow.transition">
+            <field name="act_from" ref="act_release"/>
+            <field name="act_to" ref="act_release"/>
+            <field name="signal">validate-1</field>
+            <field name="group_id" ref="base.group_hr_user"/>
+        </record>
+        
+        
+        
+        
+        
+        
+
+    </data>
+</openerp>

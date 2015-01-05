@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    
+        <!--Proforma Invoice report-->
+    <record id='aton_profirma_invoice' model='ir.actions.report.xml'>
+      <field name='report_type'>aeroo</field>
+      <field name='in_format'>oo-odt</field>
+      <field name='out_format' eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"/>
+      <field name='multi' eval='False'/>
+      <field name='name'>OSCG sale order</field>
+      <field name='report_rml'>aton_report/report/profirma_invoice.odt</field>
+      <field name='report_name'>aton_profirma_invoice</field>
+      <field name='model'>sale.order</field>
+      <field name='type'>ir.actions.report.xml</field>
+      <field name='attachment_use' eval='False'/>
+      <field name='parser_loc'>aton_report/report/profirma_invoice.py</field>
+      <field name='tml_source'>file</field>
+      <field name='parser_state'>loc</field>
+      <field name='styles_mode'>default</field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['sale.order']" name="models"/>
+        <field name="name">OSCG Proforma Invoice</field>
+        <field eval="'ir.actions.report.xml,'+str(aton_profirma_invoice)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+
+        <!--Commercial Invoice report-->
+    <record id='aton_commercial_invoice' model='ir.actions.report.xml'>
+      <field name='report_type'>aeroo</field>
+      <field name='in_format'>oo-odt</field>
+      <field name='out_format' eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"/>
+      <field name='multi' eval='False'/>
+      <field name='name'>OSCG Invoice</field>
+      <field name='report_rml'>aton_report/report/commercial_invoice.odt</field>
+      <field name='report_name'>aton_commercial_invoice</field>
+      <field name='model'>account.invoice</field>
+      <field name='type'>ir.actions.report.xml</field>
+      <field name='attachment_use' eval='False'/>
+      <field name='parser_loc'>aton_report/report/commercial_invoice.py</field>
+      <field name='tml_source'>file</field>
+      <field name='parser_state'>loc</field>
+      <field name='styles_mode'>default</field>
+    </record>
+    
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="['account.invoice']" name="models"/>
+        <field name="name">OSCG Invoice</field>
+        <field eval="'ir.actions.report.xml,'+str(aton_commercial_invoice)" name="value"/>
+        <field eval="True" name="isobject"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+    
+    
+    </data>
+</openerp>

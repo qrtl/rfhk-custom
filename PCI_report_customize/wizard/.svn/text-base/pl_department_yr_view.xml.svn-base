@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+        <record id="accounting_report_view" model="ir.ui.view">
+            <field name="name">PCI Accounting Report</field>
+            <field name="model">pl.department.yr</field>
+            <field name="arch" type="xml">
+                <form string="PCI Report" version="7.0">
+                    <group col="4">
+                       <field name="chart_account_id" widget='selection' on_change="onchange_chart_id(chart_account_id, context)"/>
+                       <field name="company_id" invisible="1"/>
+                       <field name="fiscalyear_id"/>
+                       <field name="target_move"/>
+                       <field name="last_year"/>
+                       <field name="two_years_go"/>
+                       <field name="date_from" invisible="1"/>
+                       <field name="date_to" invisible="1"/>
+                       <field name="account_report_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                        or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_pl_department_yr" model="ir.actions.act_window">
+             <field name="name">PL_PastYear_Yr</field>
+             <field name="res_model">pl.department.yr</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="view_id" ref="accounting_report_view"/>
+             <field name="target">new</field>
+        </record>
+        <menuitem id="pci_menu_account_report" action="pci_action_account_report" parent="account.final_accounting_reports" icon="STOCK_PRINT" sequence="102"/>
+
+    </data>
+</openerp>

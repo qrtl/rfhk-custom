@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+		<record model="ir.ui.view" id="act_report_xml_view1">
+			<field name="name">ir.actions.report.xml.aeroo.form</field>
+			<field name="model">ir.actions.report.xml</field>
+            <field name="priority">14</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="report_aeroo.act_report_xml_view1"/>
+			<field name="arch" type="xml">
+                <xpath expr="//field[@name='multi']" position='after'>
+                    <field name="page_count"/>
+                </xpath>
+			</field>
+		</record>
+
+    </data>
+</openerp>

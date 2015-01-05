@@ -1,0 +1,305 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* releasing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140110-002122\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-11 03:43+0000\n"
+"PO-Revision-Date: 2014-04-11 03:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: releasing
+#: field:project.releasing,release_number:0
+msgid "NO."
+msgstr "序号"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "To Do Releasing"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "To Do"
+msgstr ""
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_issue
+msgid "Project Issue"
+msgstr "问题"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Submit to Project Manager"
+msgstr "提交给项目经理"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Group By..."
+msgstr "分组"
+
+#. module: releasing
+#: field:project.releasing,message_follower_ids:0
+msgid "Followers"
+msgstr "关注者"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Set to Draft"
+msgstr "设置成草稿"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Basic"
+msgstr "基本信息"
+
+#. module: releasing
+#: view:project.releasing:0
+#: selection:project.releasing,step:0
+msgid "New"
+msgstr "新建"
+
+#. module: releasing
+#: model:mail.message.subtype,name:releasing.mt_release_refused
+#: selection:project.releasing,step:0
+msgid "Refused"
+msgstr "拒绝"
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,issue_id:0
+#: selection:project.releasing,type:0
+msgid "Issue"
+msgstr "问题"
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_pro_approved
+#: model:mail.message.subtype,name:releasing.mt_pro_approved
+#: selection:project.releasing,step:0
+msgid "Approved"
+msgstr "已批准"
+
+#. module: releasing
+#: field:project.releasing,project_manager:0
+msgid "Project Manager"
+msgstr "项目经理"
+
+#. module: releasing
+#: model:ir.actions.act_window,name:releasing.act_project_releasing
+#: model:ir.actions.act_window,name:releasing.act_project_releasing_issue_button
+#: model:ir.actions.act_window,name:releasing.act_project_releasing_project_button
+#: model:ir.actions.act_window,name:releasing.act_project_releasing_task_button
+#: model:ir.ui.menu,name:releasing.releases
+#: view:project.issue:0
+#: view:project.project:0
+#: view:project.task:0
+msgid "Releases"
+msgstr "发布"
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,message_unread:0
+msgid "Unread Messages"
+msgstr "未读信息"
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,type:0
+msgid "Type"
+msgstr "类别"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing"
+msgstr "发布"
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_releasing
+msgid "Project Releasing"
+msgstr "项目发布"
+
+#. module: releasing
+#: field:project.releasing,planned_time:0
+msgid "Planned Time"
+msgstr "预计时间"
+
+#. module: releasing
+#: field:project.releasing,planned_date:0
+msgid "Planned Date"
+msgstr "预计日期"
+
+#. module: releasing
+#: help:project.releasing,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+#: field:project.releasing,step:0
+msgid "Step"
+msgstr "状态"
+
+#. module: releasing
+#: field:project.releasing,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,actual_date:0
+msgid "Releasing Date"
+msgstr "发布日期"
+
+#. module: releasing
+#: field:project.releasing,notes:0
+msgid "Notes"
+msgstr "注释"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Refuse"
+msgstr "拒绝"
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_task
+#: view:project.releasing:0
+#: field:project.releasing,task_id:0
+#: selection:project.releasing,type:0
+msgid "Task"
+msgstr "任务"
+
+#. module: releasing
+#: selection:project.releasing,step:0
+msgid "Waiting Approval"
+msgstr "等待审批"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "People in Charge"
+msgstr "负责人"
+
+#. module: releasing
+#: field:project.releasing,message_ids:0
+msgid "Messages"
+msgstr "信息"
+
+#. module: releasing
+#: field:project.releasing,message_summary:0
+#: field:project.releasing,name:0
+msgid "Summary"
+msgstr "名称"
+
+#. module: releasing
+#: model:ir.model,name:releasing.model_project_project
+#: view:project.releasing:0
+#: field:project.releasing,project_id:0
+msgid "Project"
+msgstr "项目"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "New Release"
+msgstr "新发布"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Time"
+msgstr "时间"
+
+#. module: releasing
+#: field:project.project,technical_manager:0
+#: field:project.releasing,technical_manager:0
+msgid "Technical Manager"
+msgstr "技术主管"
+
+#. module: releasing
+#: field:project.releasing,id:0
+msgid "ID"
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Approve"
+msgstr "批准"
+
+#. module: releasing
+#: help:project.releasing,message_ids:0
+msgid "Messages and communication history"
+msgstr ""
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_release_refused
+msgid "Release refused"
+msgstr "被拒绝的发布"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing Tree"
+msgstr ""
+
+#. module: releasing
+#: field:project.issue,releasing_count:0
+#: field:project.project,releasing_count:0
+#: field:project.task,releasing_count:0
+msgid "Releasing in Progress"
+msgstr "进行中的发布"
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_tec_approved
+#: model:mail.message.subtype,name:releasing.mt_tec_approved
+msgid "Technical Manager Approved"
+msgstr "技术通过"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Submit to Technical Manager"
+msgstr "提交给技术主管"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Month"
+msgstr ""
+
+#. module: releasing
+#: selection:project.releasing,step:0
+msgid "Technical Approved"
+msgstr "技术通过"
+
+#. module: releasing
+#: help:project.releasing,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing Month"
+msgstr "发布月"
+
+#. module: releasing
+#: view:project.releasing:0
+#: selection:project.releasing,step:0
+msgid "Done"
+msgstr "完成"
+
+#. module: releasing
+#: model:mail.message.subtype,description:releasing.mt_release_confirmed
+#: model:mail.message.subtype,name:releasing.mt_release_confirmed
+msgid "To Approve"
+msgstr "等待审批"
+
+#. module: releasing
+#: view:project.releasing:0
+msgid "Releasing Search"
+msgstr ""
+
+#. module: releasing
+#: field:project.releasing,actual_time:0
+msgid "Releasing Time"
+msgstr "发布时间"
+
