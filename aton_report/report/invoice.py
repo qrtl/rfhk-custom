@@ -1,5 +1,19 @@
-
-# encoding: utf-8
+# -*- coding: utf-8 -*-
+#    OpenERP, Open Source Management Solution
+#    Copyright (c) Rooms For (Hong Kong) Ltd. T/A OSCG. All Rights Reserved
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #from osv import osv
 import netsvc
@@ -23,13 +37,18 @@ class Parser(report_sxw.rml_parse):
             'get_pages':self.get_pages,
             'get_address':self.get_address,
             })
-            
+    
     def get_address(self,obj):
         res_partner = self.pool.get('res.partner')
-        addresses = res_partner.address_get(self.cr, self.uid, [obj.partner_id.id], ['default', 'invoice'])
+        addresses = res_partner.address_get(self.cr, self.uid, [obj.partner_id.id], ['default', 'delivery', 'invoice'])
         addr_invoice_id = addresses['invoice'] or addresses['default']
+        addr_delivery_id = addresses['delivery'] or addresses['default']
         invoice_obj = res_partner.browse(self.cr,self.uid,addr_invoice_id)
-        return {'street':invoice_obj.street or '','street2':invoice_obj.street2 or '','phone':invoice_obj.phone or '','fax':invoice_obj.fax or '','name':invoice_obj.name}
+        delivery_obj = res_partner.browse(self.cr,self.uid,addr_delivery_id)
+        return {
+            'invoice':{'street':invoice_obj.street or '','street2':invoice_obj.street2 or '','phone':invoice_obj.phone or '','fax':invoice_obj.fax or '','name':invoice_obj.name},
+            'delivery':{'street':delivery_obj.street or '','street2':delivery_obj.street2 or '','phone':delivery_obj.phone or '','fax':delivery_obj.fax or '','name':delivery_obj.name},
+            }
 
     def new_page(self,n,pn,max):
         if n==max:
@@ -48,13 +67,13 @@ class Parser(report_sxw.rml_parse):
         res = []
         seq = 0
         total_ln = []
-        for line in obj.order_line:
+        for line in obj.invoice_line:
             ln={}
             ln['note'] = line.product_id and line.product_id.name or ''
-            ln['qty'] = line.product_uom_qty or 0.00
-            ln['product_uom'] = line.product_uom.name or ''
+            ln['qty'] = line.quantity or 0.00
+            ln['uos_id'] = line.uos_id.name or ''
             ln['price_unit'] = line.price_unit or 0.00
-            ln['line_total'] = line.price_unit * line.product_uom_qty
+            ln['line_total'] = line.price_unit * line.quantity
             ln['seq'] = '%s' % (seq+1,)
             total_ln.append(ln)
             seq += 1
@@ -64,10 +83,10 @@ class Parser(report_sxw.rml_parse):
                     if not ln['note']:
                         ln['note'] = nl
                     else:
-                        line = {'seq': '', 'note':nl, 'qty': '', 'price_unit': '', 'line_total': '', 'product_uom':''}
+                        line = {'seq': '', 'note':nl, 'qty': '', 'price_unit': '', 'line_total': '', 'uos_id':''}
                         total_ln.append(line)
-                line = {'seq': ' ', 'note':' ','qty': '', 'price_unit': '', 'line_total': '', 'product_uom':''}
-                if seq < len(obj.order_line):
+                line = {'seq': ' ', 'note':' ','qty': '', 'price_unit': '', 'line_total': '', 'uos_id':''}
+                if seq < len(obj.invoice_line):
                     total_ln.append(line)
         
         page = {}
@@ -93,7 +112,7 @@ class Parser(report_sxw.rml_parse):
             page_last = res[-1]
             page_last['last'] = True
         
-        ln={'note':' ','qty': '', 'price_unit': '', 'line_total': '', 'seq': ' ', 'product_uom':''}
+        ln={'note':' ','qty': '', 'price_unit': '', 'line_total': '', 'seq': ' ', 'uos_id':''}
         for p in res:
             if p['pn'] != pn:
                 p['continue'] = "Cont. on Page %d" % (p['pn']+1,)
